@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蹦闆 BombBoss — 伊果國際集團</title>
+<meta name="description" content="伊果國際集團專屬智能工作站">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#fafbfd;
+  --card:#ffffff;
+  --card-hover:#f5f8fc;
+  --border:rgba(0,0,0,0.07);
+  --border-hover:rgba(0,0,0,0.14);
+  --gold:#b8963e;
+  --gold-dim:rgba(184,150,62,0.08);
+  --violet:#6b5cad;
+  --violet-dim:rgba(107,92,173,0.08);
+  --orange:#c47a3a;
+  --orange-dim:rgba(196,122,58,0.08);
+  --text:#1a2030;
+  --text-muted:rgba(26,32,48,0.45);
+  --text-dim:rgba(26,32,48,0.25);
+  --radius:16px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans TC',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(107,92,173,0.15)}
+
+.ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.orb-1{width:50vw;height:50vw;top:-20%;left:-15%;background:radial-gradient(circle,rgba(107,92,173,0.05),transparent 65%)}
+.orb-2{width:40vw;height:40vw;bottom:-15%;right:-10%;background:radial-gradient(circle,rgba(184,150,62,0.04),transparent 65%)}
+
+.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+.header{padding:56px 0 32px;text-align:center}
+.header h1{
+  font-family:'Noto Serif TC',serif;
+  font-size:2rem;font-weight:700;
+  background:linear-gradient(135deg,#6b5cad,#b8963e);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:3px;
+  margin-bottom:8px;
+}
+.header .subtitle{
+  font-size:0.85rem;color:var(--text-muted);
+  letter-spacing:3px;
+}
+.header-intro{
+  font-size:0.82rem;color:var(--text-muted);
+  line-height:1.8;margin-top:12px;
+  font-weight:300;letter-spacing:0.3px;
+}
+.back-link{
+  display:inline-block;margin-top:16px;
+  font-size:0.75rem;color:var(--text-muted);
+  text-decoration:none;letter-spacing:1px;
+  border:1px solid var(--border);
+  padding:6px 14px;border-radius:100px;
+  transition:all 0.3s var(--ease);
+}
+.back-link:hover{color:var(--violet);border-color:rgba(107,92,173,0.25)}
+
+.brand-header{
+  display:flex;align-items:center;gap:16px;
+  margin:24px 0 32px;padding-bottom:24px;
+  border-bottom:1px solid var(--border);
+}
+.brand-icon-lg{
+  width:56px;height:56px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--violet-dim);color:var(--violet);
+  font-size:1.4rem;font-weight:700;
+  font-family:'Noto Serif TC',serif;
+}
+.brand-header h2{font-size:1.4rem;font-weight:700;color:var(--violet);font-family:'Noto Sans TC',sans-serif}
+.brand-header .brand-desc{font-size:0.82rem;color:var(--text-muted);margin-top:4px}
+
+.section-label{
+  font-size:0.72rem;letter-spacing:3px;
+  text-transform:uppercase;color:var(--text-dim);
+  margin:32px 0 16px;padding-left:4px;
+  font-family:'Noto Sans TC',sans-serif;
+}
+
+.tool-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:16px;
+}
+.tool-card{
+  display:flex;flex-direction:column;align-items:center;
+  padding:28px 20px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  text-decoration:none;color:var(--text);
+  transition:all 0.35s var(--ease);
+  cursor:pointer;position:relative;overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,0.03);
+}
+.tool-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--violet),transparent);
+  opacity:0;transition:opacity 0.35s;
+}
+.tool-card:hover{
+  background:var(--card-hover);
+  border-color:var(--border-hover);
+  transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(107,92,173,0.08), 0 2px 8px rgba(0,0,0,0.04);
+}
+.tool-card:hover::before{opacity:1}
+.tool-card.is-dev{cursor:not-allowed;opacity:0.75}
+.tool-card.is-dev:hover{transform:none;background:var(--card);border-color:var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.03)}
+.tool-card.is-dev:hover::before{opacity:0}
+
+.tool-icon{
+  width:52px;height:52px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;font-weight:700;margin-bottom:14px;
+  background:rgba(26,32,48,0.02);
+  border:1px solid var(--border);
+  font-family:'Noto Sans TC',sans-serif;letter-spacing:-1px;
+}
+.tool-icon.icon-violet{background:var(--violet-dim);border-color:rgba(107,92,173,0.15);color:var(--violet)}
+.tool-icon.icon-gold{background:var(--gold-dim);border-color:rgba(184,150,62,0.15);color:var(--gold)}
+.tool-icon.icon-orange{background:var(--orange-dim);border-color:rgba(196,122,58,0.15);color:var(--orange)}
+.brand-icon{width:52px;height:52px;border-radius:13px;margin-bottom:14px;object-fit:contain;padding:4px}
+
+.tool-card h3{
+  font-size:0.95rem;font-weight:600;
+  text-align:center;margin-bottom:6px;
+  font-family:'Noto Sans TC',sans-serif;
+}
+.tool-card p{
+  font-size:0.75rem;color:var(--text-muted);
+  text-align:center;line-height:1.6;
+}
+.tool-tag{
+  margin-top:12px;padding:3px 10px;
+  font-size:0.68rem;border-radius:100px;
+  letter-spacing:0.5px;
+}
+.tag-live{background:rgba(107,92,173,0.1);color:var(--violet)}
+.tag-dev{background:rgba(26,32,48,0.06);color:var(--text-dim)}
+
+footer{
+  text-align:center;padding:40px 0;
+  border-top:1px solid var(--border);
+  margin-top:48px;
+}
+footer p{font-size:0.75rem;color:var(--text-dim);letter-spacing:1px}
+
+@media(max-width:640px){
+  .header h1{font-size:1.5rem}
+  .tool-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .tool-card{padding:22px 14px}
+}
+</style>
+</head>
+<body>
+
+<div class="ambient">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<div class="container">
+  <header class="header">
+    <h1>蹦闆 BombBoss</h1>
+    <div class="subtitle">伊果國際集團 — 智能工作站</div>
+    <p class="header-intro">五大事業體專屬面板 — 品牌工具 ・ 營運數據</p>
+    <a class="back-link" href="https://reyway.com">← 回 REYWAY 總覽</a>
+  </header>
+
+  <div class="brand-header">
+    <img class="brand-icon-lg" src="images/icon-eagle-group.png" alt="伊果" onerror="this.outerHTML='<div class=\'brand-icon-lg\'>伊</div>'">
+    <div>
+      <h2>伊果國際集團</h2>
+      <div class="brand-desc">五大事業體 — 服飾・餐飲・飲料・小吃・鐘錶</div>
+    </div>
+  </div>
+
+  <div class="section-label">品牌智能工具</div>
+  <div class="tool-grid">
+    <a class="tool-card" href="https://suan7.reyway.com" target="_blank">
+      <img class="brand-icon" src="images/icon-sour7.png" alt="酸小七" style="background:var(--orange-dim)" onerror="this.outerHTML='<div class=\'tool-icon icon-orange\'>酸</div>'">
+      <h3>酸小七</h3>
+      <p>社群小編工具箱<br>圖文產生・貼文排程</p>
+      <span class="tool-tag tag-live">● 已上線</span>
+    </a>
+    <a class="tool-card" href="https://eagle.reyway.com" target="_blank">
+      <img class="brand-icon" src="images/icon-eagle-shopping.png" alt="蹦闆精品" style="background:var(--violet-dim)" onerror="this.outerHTML='<div class=\'tool-icon icon-violet\'>蹦</div>'">
+      <h3>蹦闆精品</h3>
+      <p>精品圖文產生器<br>商品上架素材</p>
+      <span class="tool-tag tag-live">● 已上線</span>
+    </a>
+    <a class="tool-card" href="https://club.reyway.com" target="_blank">
+      <img class="brand-icon" src="images/icon-chinahotel.png" alt="帝豪中國城酒店" style="background:var(--gold-dim)" onerror="this.outerHTML='<div class=\'tool-icon icon-gold\'>帝</div>'">
+      <h3>帝豪中國城酒店</h3>
+      <p>酒店行銷工具<br>圖文產生器</p>
+      <span class="tool-tag tag-live">● 已上線</span>
+    </a>
+  </div>
+
+  <div class="section-label">營運數據儀表板</div>
+  <div class="tool-grid">
+    <div class="tool-card is-dev">
+      <div class="tool-icon icon-violet">PL</div>
+      <h3>集團損益儀表板</h3>
+      <p>五大事業體營收<br>成本・毛利・淨利</p>
+      <span class="tool-tag tag-dev">● 開發中</span>
+    </div>
+    <div class="tool-card is-dev">
+      <div class="tool-icon icon-violet">庫</div>
+      <h3>庫存管理</h3>
+      <p>服飾庫存追蹤<br>進出貨分析</p>
+      <span class="tool-tag tag-dev">● 開發中</span>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 REYWAY × 伊果國際集團 — Powered by 笙闆</p>
+  </footer>
+</div>
+
+</body>
+</html>
